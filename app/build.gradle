@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd_HH-mm", TimeZone.getDefault())
+}
+
+android {
+
+    def BUGLY_CHANNEL_VALUE = project.hasProperty('DEFINED_UMENG_CHANNEL') ? "$DEFINED_UMENG_CHANNEL" : 'UNKNOWN'
+
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId "me.ewriter.bangumitv"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion  rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+    }
+
+    signingConfigs {
+
+        def Properties localProps = new Properties();
+        localProps.load(new FileInputStream(file("../local.properties")))
+        def Properties keyProps = new Properties()
+
+        // 读取不到local.properties 中的 信息后就使用debug 信息
+
+        if (localProps['store']) {
+            keyProps["store"] = localProps['store']
+            keyProps['storePass'] = localProps['storePass']
+            keyProps['alias'] = localProps['alias']
+            keyProps['aliasPass'] = localProps['aliasPass']
+        }
+
+        release {
+            assert localProps['store']
+            storeFile file(keyProps['store'])
+            storePassword keyProps['storePass']
+            keyAlias keyProps['alias']
+            keyPassword keyProps['aliasPass']
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+//        QQ {
+//            manifestPlaceholders = [
+//                    BUGLY_CHANNEL_VALUE : "QQ"
+//            ]
+//            dimension "default"
+//        }
+//        GooglePlay {
+//            manifestPlaceholders = [
+//                    BUGLY_CHANNEL_VALUE : "GooglePlay"
+//            ]
+//            dimension "default"
+//        }
+        CoolApk {
+            manifestPlaceholders = [
+                    BUGLY_CHANNEL_VALUE : "CoolApk"
+            ]
+            dimension "default"
+        }
+//        Github {
+//            manifestPlaceholders = [
+//                    BUGLY_CHANNEL_VALUE : "Github"
+//            ]
+//            dimension "default"
+//        }
+
+
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {output ->
+                    // 输出apk名称为BangumiTV_v1.0_2015-01-15_qq.apk
+                    def flavor = variant.productFlavors[0]
+                    outputFileName = "BangumiTV_${flavor.name}_${flavor.versionName}_${releaseTime()}.apk"
+                }
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+
+    implementation rootProject.ext.dependencies["picasso"]
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["convert-gson"]
+    implementation rootProject.ext.dependencies["logging-interceptor"]
+
+    implementation rootProject.ext.dependencies["greendao"]
+
+    implementation rootProject.ext.dependencies["circleimageview"]
+    implementation rootProject.ext.dependencies["customtabs"]
+
+    implementation rootProject.ext.dependencies["bugly"]
+
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["rxjavaAdapter"]
+    implementation rootProject.ext.dependencies["rxbinding"]
+    implementation rootProject.ext.dependencies["jsoup"]
+    implementation rootProject.ext.dependencies["convert-scalars"]
+    implementation rootProject.ext.dependencies["multitype"]
+    implementation rootProject.ext.dependencies["discrete-seekbar"]
+    implementation rootProject.ext.dependencies["rxpermissions"]
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["recyclertablayout"]
+    implementation rootProject.ext.dependencies["siyamed"]
+    implementation rootProject.ext.dependencies["persistenCookieJar"]
+
+    debugImplementation rootProject.ext.dependencies["debug-leakcanary"]
+    releaseImplementation rootProject.ext.dependencies["release-leakcanary"]
+}
