@@ -63,18 +63,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/weibo_link"
-                    android:text="@string/sina_weibo"
-                    android:textSize="@dimen/calender_item_outline_size"
-                    android:textColor="@color/md_pink_400"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <TextView
-                android:text="@string/donation_title"
+                android:text="@string/members"
                 android:padding="@dimen/common_padding"
                 android:textSize="@dimen/calender_item_title_size"
                 android:layout_width="match_parent"
@@ -85,56 +77,11 @@
                 android:padding="@dimen/common_padding"
                 android:clickable="true"
                 android:background="@drawable/card_touch_bg"
-                android:text="@string/donation_content"
+                android:text="@string/member_list"
                 android:textColor="@color/md_grey_500"
                 android:textSize="@dimen/calender_item_outline_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-
-            <TextView
-                android:text="@string/visit_github_title"
-                android:padding="@dimen/common_padding"
-                android:textSize="@dimen/calender_item_title_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/github_link"
-                android:padding="@dimen/common_padding"
-                android:clickable="true"
-                android:background="@drawable/card_touch_bg"
-                android:text="@string/visit_github_detail"
-                android:textColor="@color/md_grey_500"
-                android:textSize="@dimen/calender_item_outline_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-
-            <TextView
-                android:text="@string/open_source_title"
-                android:padding="@dimen/common_padding"
-                android:textSize="@dimen/calender_item_title_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:clickable="true"
-                android:background="@drawable/card_touch_bg"
-                android:padding="@dimen/common_padding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/open_source_list"
-                    android:textColor="@color/md_grey_500"
-                    android:textSize="@dimen/calender_item_outline_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
-
         </LinearLayout>
 
 

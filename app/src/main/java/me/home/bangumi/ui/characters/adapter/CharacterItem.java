@@ -1,0 +1,20 @@
+package me.home.bangumi.ui.characters.adapter;
+
+import me.drakeet.multitype.Item;
+
+
+public class CharacterItem implements Item {
+
+    /** 先日文再中文*/
+    public String name;
+    public String avatarUrl;
+    public String info;
+    public String cvName;
+
+    public CharacterItem(String name, String avatarUrl, String info, String cvName) {
+        this.name = name;
+        this.avatarUrl = avatarUrl;
+        this.info = info;
+        this.cvName = cvName;
+    }
+}
