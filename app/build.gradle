@@ -124,7 +124,7 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclertablayout"]
     implementation rootProject.ext.dependencies["siyamed"]
     implementation rootProject.ext.dependencies["persistenCookieJar"]
-
+    implementation rootProject.ext.dependencies['fastjson']
     debugImplementation rootProject.ext.dependencies["debug-leakcanary"]
     releaseImplementation rootProject.ext.dependencies["release-leakcanary"]
 }

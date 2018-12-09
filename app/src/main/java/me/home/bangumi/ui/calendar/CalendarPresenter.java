@@ -6,13 +6,15 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import me.home.bangumi.BangumiApp;
 import me.home.bangumi.api.ApiManager;
+import me.home.bangumi.api.response.BgmListItem;
 import me.home.bangumi.api.response.DailyCalendar;
 import me.home.bangumi.constants.MyConstants;
 import me.home.bangumi.dao.BangumiCalendar;
@@ -30,9 +32,9 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class CalendarPresenter implements CalendarContract.Presenter {
-
     private CalendarContract.View mCalendarView;
     private CompositeSubscription mSubscriptions;
+    private List<BgmListItem> bgmListItems;
 
     public CalendarPresenter(CalendarContract.View mCalendarView) {
         this.mCalendarView = mCalendarView;
@@ -81,7 +83,7 @@ public class CalendarPresenter implements CalendarContract.Presenter {
     @Override
     public void openBangumiDetail(Activity activity, View view, BangumiCalendar calendar) {
         Intent intent = new Intent(activity, BangumiDetailActivity.class);
-        intent.putExtra("bangumiId", calendar.getBangumi_id()+"");
+        intent.putExtra("bangumiId", calendar.getBangumi_id() + "");
         intent.putExtra("name", !TextUtils.isEmpty(calendar.getName_cn()) ? calendar.getName_cn() : calendar.getName_jp());
         intent.putExtra("common_url", calendar.getCommon_image());
         intent.putExtra("large_url", calendar.getLarge_image());
@@ -124,7 +126,6 @@ public class CalendarPresenter implements CalendarContract.Presenter {
                         return saveToDbData(calendarList, position);
                     }
                 });
-
         // concat 两个数据，哪个不为空用哪个，优先取 cache
         Observable<List<BangumiCalendar>> source = Observable.concat(cache, network)
                 .first(new Func1<List<BangumiCalendar>, Boolean>() {
@@ -166,7 +167,9 @@ public class CalendarPresenter implements CalendarContract.Presenter {
     }
 
 
-    /** 将网络请求的数据存储到数据库并将数据全部返回*/
+    /**
+     * 将网络请求的数据存储到数据库并将数据全部返回
+     */
     private List<BangumiCalendar> saveToDbData(List<DailyCalendar> mList, int position) {
         Log.d(LogUtil.ZUBIN, "save Thread = " + Thread.currentThread());
         DaoSession daoSession = BangumiApp.sAppCtx.getDaoSession();
@@ -175,12 +178,17 @@ public class CalendarPresenter implements CalendarContract.Presenter {
         List<BangumiCalendar> mDbList = new ArrayList<>();
         // 返回的周一的数据
         List<BangumiCalendar> mReturenList = new ArrayList<>();
-
+        getBgmListitems();
         for (int i = 0; i < mList.size(); i++) {
             DailyCalendar calendar = mList.get(i);
             for (int j = 0; j < calendar.getItems().size(); j++) {
                 BangumiCalendar entity = new BangumiCalendar();
-
+                String time = getTime(bgmListItems,
+                        calendar.getItems().get(j).getName_cn(),
+                        calendar.getItems().get(j).getName());
+                if (!time.equals(""))
+                    time = time.substring(0, 2) + ":" + time.substring(2);
+                entity.setTime(time);
                 entity.setAir_weekday(calendar.getItems().get(j).getAir_weekday());
                 entity.setName_cn(calendar.getItems().get(j).getName_cn());
                 entity.setBangumi_id(calendar.getItems().get(j).getId());
@@ -211,7 +219,61 @@ public class CalendarPresenter implements CalendarContract.Presenter {
 
         // 保存更新时间
         PreferencesUtils.putLong(BangumiApp.sAppCtx, MyConstants.CALENDAR_REFRESH_KEY, System.currentTimeMillis());
-
         return mReturenList;
     }
+
+    private String getTime(List<BgmListItem> bgmListItems, String name_cn, String name_jp) {
+        String time = "";
+        for (int i = 0; i < bgmListItems.size(); i++) {
+            if (bgmListItems.get(i).getTitleCN().equals(name_cn) ||
+                    bgmListItems.get(i).getTitleJP().equals(name_jp)) {
+                time = bgmListItems.get(i).getTimeCN();
+                break;
+            }
+        }
+        return time;
+    }
+
+    private void getBgmListitems() {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        if (month < 4 && month >= 1)
+            month = 1;
+        else if (month >= 4 && month < 7)
+            month = 4;
+        else if (month >= 7 && month < 10)
+            month = 7;
+        else
+            month = 10;
+        Observable<Map<String, BgmListItem>> bgmlist = ApiManager.getBgmListInstance().getBgmList(year, month).map(new Func1<Map<String, BgmListItem>, Map<String, BgmListItem>>() {
+            @Override
+            public Map<String, BgmListItem> call(Map<String, BgmListItem> stringBgmListItemMap) {
+                return stringBgmListItemMap;
+            }
+        });
+        Subscription subscription = bgmlist.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Map<String, BgmListItem>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Map<String, BgmListItem> stringBgmListItemMap) {
+                        setBgmListItems(new ArrayList<BgmListItem>(stringBgmListItemMap.values()));
+                    }
+                });
+        mSubscriptions.add(subscription);
+    }
+
+    public void setBgmListItems(List<BgmListItem> bgmListItems) {
+        this.bgmListItems = bgmListItems;
+    }
 }
+

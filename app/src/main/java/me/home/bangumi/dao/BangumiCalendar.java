@@ -25,6 +25,7 @@ public class BangumiCalendar {
     private String grid_image;
     private Integer rank;
     private String name_jp;
+    private String time;
 
     @Generated
     public BangumiCalendar() {
@@ -35,7 +36,7 @@ public class BangumiCalendar {
     }
 
     @Generated
-    public BangumiCalendar(Long id, String name_cn, int air_weekday, int bangumi_id, Integer bangumi_total, Float bangumi_average, String large_image, String common_image, String medium_image, String small_image, String grid_image, Integer rank, String name_jp) {
+    public BangumiCalendar(Long id, String name_cn, int air_weekday, int bangumi_id, Integer bangumi_total, Float bangumi_average, String large_image, String common_image, String medium_image, String small_image, String grid_image, Integer rank, String name_jp, String time) {
         this.id = id;
         this.name_cn = name_cn;
         this.air_weekday = air_weekday;
@@ -49,6 +50,11 @@ public class BangumiCalendar {
         this.grid_image = grid_image;
         this.rank = rank;
         this.name_jp = name_jp;
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public Long getId() {
@@ -157,4 +163,7 @@ public class BangumiCalendar {
         this.name_jp = name_jp;
     }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

@@ -23,7 +23,7 @@
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
     <string name="sunday">星期日</string>
-    <string name="score_average">评分: %1$s / 排名: %2$s</string>
+    <string name="score_average">评分: %1$s / 排名: %2$s \n时间: %3$s</string>
 
     <string name="update_failed">更新失败</string>
     <string name="update_retry">重试</string>
@@ -84,7 +84,7 @@
 
     <!-- 关于-->
     <string name="about">关于</string>
-    <string name="about_detail">Bangumi 是一个 ACG 分享与交流项目，致力于让 ACG 爱好者们在欣赏 ACG 作品之余拥有一个\\n \n轻松便捷独特的交流与沟通环境，保存由用户提供的各类ACG相关事物和人物、电影、电视剧等的相关资料，可以让用户查阅，并提供BBS论坛和留言版供交流探讨。该项目还会公布其用户对收录事物的评价，并发布排行榜。\n</string>
+    <string name="about_detail">Bangumi 是一个 ACG 分享与交流项目，致力于让 ACG 爱好者们在欣赏 ACG 作品之余拥有一个\\n轻松便捷独特的交流与沟通环境, 保存由用户提供的各类ACG相关事物和人物、电影、电视剧等的相关资料，可以让用户查阅，并提供BBS论坛和留言版供交流探讨。该项目还会公布其用户对收录事物的评价，并发布排行榜。\n</string>
     <string name="members">成员</string>
     <string name="member_list">16301164 向朝柱 \n16301130 沈楚朋 \n16301162 王阳 \n16301008 李凯</string>
     <string name="watch_progress">观看进度</string>

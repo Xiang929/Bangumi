@@ -13,10 +13,19 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import me.home.bangumi.R;
+import me.home.bangumi.api.ApiManager;
+import me.home.bangumi.api.response.BgmListItem;
 import me.home.bangumi.dao.BangumiCalendar;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapter.MyViewHolder> {
 
@@ -58,7 +67,10 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
         } else {
             average = "???";
         }
-        holder.mBangumiOutline.setText(String.format(mContext.getString(R.string.score_average), average, rank));
+        String time = calendar.getTime();
+        if (time.equals(""))
+            time = "???";
+        holder.mBangumiOutline.setText(String.format(mContext.getString(R.string.score_average), average, rank, time));
 
         if (calendar.getLarge_image() != null) {
 //            Picasso.with(mContext)
@@ -118,25 +130,6 @@ public class CalendarItemAdapter extends RecyclerView.Adapter<CalendarItemAdapte
     public void setOnCalendarItemClickListener(onCalendarItemListener listener) {
         this.listener = listener;
     }
-
-//    Transformation transformation = new Transformation() {
-//        @Override
-//        public Bitmap transform(Bitmap source) {
-//            int width = source.getWidth() / 2;
-//            int height = source.getHeight() / 2;
-//
-//            Bitmap result = Bitmap.createScaledBitmap(source, width, height, false);
-//            if (result != source) {
-//                source.recycle();
-//            }
-//            return result;
-//        }
-//
-//        @Override
-//        public String key() {
-//            return "transformation_half";
-//        }
-//    };
 
     static class HalfTransformation implements Transformation {
 

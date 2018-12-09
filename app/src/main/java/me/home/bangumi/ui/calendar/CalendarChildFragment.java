@@ -94,8 +94,6 @@ public class CalendarChildFragment extends BaseFragment implements CalendarContr
 
     @Override
     protected void loadData() {
-        // 默认只会在fragment第一次运行的时候调用，这里手动修改了懒加载的方法每次都会调用
-        // 如果要自己调用，需要手动调用prepareFetchData(true)
         if (mCalendarList.size() == 0) {
             LogUtil.d(LogUtil.ZUBIN, "loadData "+ mPosition);
             showLoading();

@@ -1,8 +1,6 @@
 package me.home.bangumi.api;
 
 
-import android.text.GetChars;
-
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -38,4 +36,6 @@ public interface WebApi {
                                 @Path("year") int year,
                                 @Path("month") int month,
                                 @Query("page") int i);
+
+
 }
