@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import me.drakeet.multitype.MultiTypePool;
@@ -50,8 +49,8 @@ public class BangumiApp extends Application {
         } else {
             CrashReport.initCrashReport(getApplicationContext(), MyConstants.BUGLY_APPID, false);
         }
-
-        LeakCanary.install(this);
+//        Leak
+//        LeakCanary.install(this);
 
         CustomOpenHelper helper = new CustomOpenHelper(this, MyConstants.DB_NAME, null);
         SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
