@@ -206,9 +206,8 @@ public class IndexPresenter implements IndexContract.Presenter {
                 .where(IndexDao.Properties.Category.eq(category)
                         , IndexDao.Properties.Date.eq(date)).list();
         indexDao.deleteInTx(queryList);
-
-        indexDao.insertOrReplaceInTx(mList);
-
+        indexDao.insertInTx(mList);
+        List<Index> list = indexDao.loadAll();
         String key = category + date;
         PreferencesUtils.putLong(BangumiApp.sAppCtx
                 , MyConstants.INDEX_REFRESH_NAME, key, System.currentTimeMillis());
@@ -243,3 +242,4 @@ public class IndexPresenter implements IndexContract.Presenter {
         activity.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, "img").toBundle());
     }
 }
+

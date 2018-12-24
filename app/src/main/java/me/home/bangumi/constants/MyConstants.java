@@ -36,7 +36,7 @@ public class MyConstants {
     public static final String COLLECTION_REFRESH_NAME = Md5Util.md5("COLLECTION_REFRESH_NAME");
     public static final long COLLECTION_REFRESH_TIME = 21600000;
 
-    public static final String INDEX_REFRESH_NAME = Md5Util.md5("COLLECTION_REFRESH_NAME");
+    public static final String INDEX_REFRESH_NAME = Md5Util.md5("INDEX_REFRESH_NAME");
     public static final long INDEX_REFRESH_TIME = 21600000;
 
     public static final String BUGLY_APPID = "900046055";

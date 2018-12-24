@@ -55,9 +55,9 @@ public class IndexDao extends AbstractDao<Index, Long> {
     protected Index readEntity(Cursor cursor, int offset) {
         Index entity = new Index( //
                 cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-                cursor.getString(offset + 1), // name_cn
-                cursor.getString(offset + 2), // name
-                cursor.getString(offset + 3), // img_url
+                cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name_cn
+                cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
+                cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // img_url
                 cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // bangumi_id
                 cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // info
                 cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // category
@@ -74,9 +74,9 @@ public class IndexDao extends AbstractDao<Index, Long> {
     @Override
     protected void readEntity(Cursor cursor, Index entity, int offset) {
         entity.setId(cursor.isNull(offset) ? null : cursor.getLong(offset + 0)); // id
-        entity.setName_cn(cursor.getString(offset + 1)); // name_cn
-        entity.setName(cursor.getString(offset + 2)); // name
-        entity.setImg_url(cursor.getString(offset + 3)); // img_url
+        entity.setName_cn(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1)); // name_cn
+        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2)); // name
+        entity.setImg_url(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3)); // img_url
         entity.setBangumi_id(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4)); // bangumi_id
         entity.setInfo(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5)); // info
         entity.setCategory(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6)); // category
@@ -88,8 +88,9 @@ public class IndexDao extends AbstractDao<Index, Long> {
         stmt.clearBindings();
 
         Long id = entity.getId();
-        stmt.bindLong(1, id);
-
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         String name_cn = entity.getName_cn();
         if (name_cn != null) {
             stmt.bindString(2, name_cn);
@@ -130,7 +131,9 @@ public class IndexDao extends AbstractDao<Index, Long> {
         stmt.clearBindings();
 
         Long id = entity.getId();
-        stmt.bindLong(1, id);
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
 
         String name_cn = entity.getName_cn();
         if (name_cn != null) {
@@ -153,7 +156,7 @@ public class IndexDao extends AbstractDao<Index, Long> {
 
         String info = entity.getInfo();
         if (info != null) {
-            stmt.bindString(2, info);
+            stmt.bindString(6, info);
         }
 
         String category = entity.getCategory();

@@ -3,13 +3,13 @@ package me.home.bangumi.dao;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 
 @Entity
 public class Index {
 
     @Id
-    private long id;
+    private Long id;
+
     private String name_cn;
     private String name;
     private String img_url;
@@ -18,12 +18,8 @@ public class Index {
     private String bangumi_id;
     private String info;
 
-    public Index(long id) {
-        this.id = id;
-    }
-
     @Generated
-    public Index(long id, String name_cn, String name, String img_url, String bangumi_id, String info, String category, String date) {
+    public Index(Long id, String name_cn, String name, String img_url, String bangumi_id, String info, String category, String date) {
         this.id = id;
         this.name_cn = name_cn;
         this.name = name;
@@ -34,8 +30,8 @@ public class Index {
         this.date = date;
     }
 
-    @Generated
     public Index(Long id) {
+        this.id = id;
     }
 
     @Generated
@@ -72,7 +68,6 @@ public class Index {
         this.info = info;
     }
 
-    @Generated
     public String getName_cn() {
         return name_cn;
     }
@@ -102,11 +97,11 @@ public class Index {
         return category;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

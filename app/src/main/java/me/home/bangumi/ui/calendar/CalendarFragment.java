@@ -83,7 +83,6 @@ public class CalendarFragment extends BaseFragment {
         mViewPager.post(new Runnable() {
             @Override
             public void run() {
-
                 mViewPager.setAdapter(adapter);
                 mTabLayout.setupWithViewPager(mViewPager);
             }
