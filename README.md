@@ -1,1 +1,1 @@
-# Bangumi
+# Bangumi Android Final Project
